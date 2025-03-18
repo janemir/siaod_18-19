@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace _18_19_LR
 {
@@ -48,9 +49,17 @@ namespace _18_19_LR
         // очистить очередь
         private void button2_Click(object sender, EventArgs e)
         {
-            Clear_Tab(); 
+            if (queueSize == 0)
+            {
+                textBox1.Text = "Очередь уже пуста";
+                return;
+            }
+
+            Clear_Tab();
+            queueSize = 0;
             textBox1.Text = "Все массивы очищены";
         }
+
 
         // извлечь максимальный
         private void button3_Click(object sender, EventArgs e)
@@ -83,18 +92,19 @@ namespace _18_19_LR
         {
             if (queueSize >= 15)
             {
+                MessageBox.Show("Очередь переполнена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 textBox1.Text = "Очередь переполнена";
                 return;
             }
 
-            // добавление нового элемента в конец очереди
-            int newElement = (int)numericUpDown1.Value;
+            // Генерация случайного числа
+            int newElement = random.Next(10, 100);
             queueSize++;
             priorityQueue[queueSize] = newElement;
-            fixUp(queueSize); 
+            fixUp(queueSize);
 
             UpdateArrayGridView();
-            Print(priorityQueue); 
+            Print(priorityQueue);
             textBox1.Text = $"Добавлен элемент: {newElement}";
         }
 
